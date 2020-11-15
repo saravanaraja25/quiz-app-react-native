@@ -5,7 +5,7 @@ import Score from './components/Score'
 const App = () => {
   const [questions,setQuestions]=useState([]);
   // let i=0;
-  const [index,setIndex]=useState(1);
+  const [index,setIndex]=useState(0);
   const [isStarted,setisStarted]=useState(false);
   const [score,setScore]=useState(0);
   const [answered,setAnswered]=useState(false);
@@ -13,7 +13,6 @@ const App = () => {
     quiz();
   }, []);
   const quiz= async ()=>{
-    console.log(score);
     const data= await (await fetch("https://opentdb.com/api.php?amount=2&category=12&difficulty=medium&type=boolean")).json();
     setQuestions(data.results);
     
@@ -30,11 +29,9 @@ const App = () => {
   }
   const finalscore=(s)=>{
     alert('Your Score is :'+s);
-    setQuestions([]);
-    setisStarted(false);
-    setIndex(0);
-    setScore(0);
+    
   }
+  
   return (
     <View>
       <Text  style={styles.text}>Quiz App</Text>
@@ -52,6 +49,11 @@ const App = () => {
             }>Next</Text>:
             <Text onPress={()=>{
               finalscore(score);
+              setQuestions([]);
+              setisStarted(false);
+              setAnswered(false);
+              setIndex(0);
+              setScore(0);
               quiz();
             }
             }>Finish</Text>
